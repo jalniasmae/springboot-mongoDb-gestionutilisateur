@@ -1,16 +1,10 @@
 package in.org.SpringBoot.springbootmongodb.model;
 
 import java.util.Date;
-
-
 import javax.validation.constraints.NotNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 
 
@@ -19,12 +13,16 @@ public class User {
 
 	@Id
 	private Long id;
+	private String cuid;
 	@NotNull(message = "firstName could not be null")
 	private String firstName;
 	@NotNull(message = "LastName could not be null")
 	private String laststName;
 	@NotNull(message = "birthDate could not be null")
+
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date birthDate;
+//	@JsonFormat(pattern = "MM/dd/yyyy")
 	private Date createDate;
 	private Date UpdateDate;
 
@@ -58,10 +56,12 @@ public class User {
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
-	public User(Long id, String firstName, String laststName, Date birthDate, Date createDate) {
+	public User(Long id,String cuid, String firstName, String laststName, Date birthDate, Date createDate) {
 		super();
 		this.id = id;
-
+		
+		this.cuid=cuid;
+		
 		this.firstName = firstName;
 
 		this.laststName = laststName;
@@ -79,6 +79,12 @@ public class User {
 	}
 	public void setUpdateDate(Date updateDate) {
 		UpdateDate = updateDate;
+	}
+	public String getCuid() {
+		return cuid;
+	}
+	public void setCuid(String cuid) {
+		this.cuid = cuid;
 	}
 
 

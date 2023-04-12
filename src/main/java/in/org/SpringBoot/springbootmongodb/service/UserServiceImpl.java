@@ -22,14 +22,14 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public void createUser(User user) throws ConstraintViolationException, UserCollectionException {
-		Optional<User> userOptional= userRepository.findByLaststName(user.getLaststName());
+		Optional<User> userOptional= userRepository.findByCuid(user.getCuid());
 		if (userOptional.isPresent()) {
 			throw new UserCollectionException(UserCollectionException.UserAlreadyExists());
 		}else {
 			user.setCreateDate(new Date(System.currentTimeMillis()));
 			userRepository.save(user);
 		}
-
+ 
 
 	}
 
@@ -57,14 +57,15 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public void updateUser(Long id, User user) throws UserCollectionException {
 		Optional<User> userWithId = userRepository.findById(id);
-		Optional<User> userWithSameName = userRepository.findByLaststName(user.getFirstName());
+		Optional<User> userWithSameCuid = userRepository.findByCuid(user.getCuid());
 
 
-		if (userWithId.isPresent()) {
-			if (userWithSameName.isPresent() && userWithSameName.get().getId ().equals(id)){
+		if(userWithId.isPresent()) {
+			if(userWithSameCuid.isPresent() && !userWithSameCuid.get().getId().equals(id)){
 				throw new UserCollectionException(UserCollectionException.UserAlreadyExists());
 			}
 			User userToUpdate  = userWithId.get();
+			userToUpdate.setCuid(user.getCuid());
 			userToUpdate.setFirstName(user.getFirstName());
 			userToUpdate.setLaststName(user.getLaststName());
 			userToUpdate.setBirthDate(user.getBirthDate());

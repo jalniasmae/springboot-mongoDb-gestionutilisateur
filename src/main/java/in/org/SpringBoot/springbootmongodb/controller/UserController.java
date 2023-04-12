@@ -5,6 +5,7 @@ import javax.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,10 +20,11 @@ import in.org.SpringBoot.springbootmongodb.repository.UserRepository;
 import in.org.SpringBoot.springbootmongodb.service.UserService;
 
 @RestController
+@CrossOrigin(origins ="http://localhost:4200/")
+
 public class UserController {
 
-	@Autowired
-	private UserRepository userRepository;
+	
 
 	@Autowired
 	private UserService userService;
@@ -69,7 +71,7 @@ public class UserController {
 	{
 		try {
 			userService.updateUser(id, user);
-			return new ResponseEntity<>("Update User with id"+id, HttpStatus.OK);
+			return new ResponseEntity<>( HttpStatus.OK);
 		} catch (ConstraintViolationException e) {
 			return new ResponseEntity<>(e.getMessage(),HttpStatus.UNPROCESSABLE_ENTITY);
 		} catch(UserCollectionException e) {
@@ -82,7 +84,7 @@ public class UserController {
 	public ResponseEntity<?> deleteById(@PathVariable("id") Long id )
 	{   try {
 		userService.deleteUserById(id);
-		return new ResponseEntity<>("Succefuly deleted with id "+id, HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}catch(UserCollectionException e) {
 		return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 	}	

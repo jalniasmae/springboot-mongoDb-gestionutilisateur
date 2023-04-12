@@ -15,7 +15,7 @@ public class UserCollectionException extends Exception{
 	}
 
 	public static String UserAlreadyExists() {
-		return "User with given name already exists";
+		return "User with given CUID already exists";
 	}
 
 }

@@ -13,5 +13,8 @@ public interface UserRepository extends MongoRepository<User, Long>{
 
 	@Query("{'laststName': ?0}")
 	Optional <User> findByLaststName(String laststName);
-		
+	
+	@Query("{'cuid': ?0}")
+	Optional <User> findByCuid(String cuid);
+	
 }
